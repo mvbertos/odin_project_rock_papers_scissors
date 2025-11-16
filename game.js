@@ -1,3 +1,49 @@
+//UI
+let humanChoice = -1;
+
+//Get choice buttons and set the human choice value
+//0 is rock, 1 is papper, 2 is scissors
+const buttonsChoices = document.querySelectorAll("#game #choices button");
+
+buttonsChoices.forEach((button) => {
+  button.addEventListener("click", () => {
+    let id = button.id;
+    if (id == "rock") {
+      humanChoice = 0;
+    } else if (id == "paper") {
+      humanChoice = 1;
+    } else {
+      humanChoice = 2;
+    }
+  });
+});
+
+//Get the playRound button and make the play using the playRound function using the humanChoice from earlier
+//update the result when the round is played
+const buttonPlayRound = document.querySelector("#game #play");
+
+buttonPlayRound.addEventListener("click", () => {
+  if (humanChoice == -1) {
+    alert("You must select a button before play a round.");
+    return;
+  } else {
+    playRound(getComputerChoice(), humanChoice);
+    updateScoreBoard(humanScore, computerScore);
+    humanChoice = -1;
+  }
+});
+
+//Updates the Human and computer score at the document
+const pHumanScore = document.querySelector("#humanScore");
+const pComputerScore = document.querySelector("#computerScore");
+
+function updateScoreBoard(humanScore, computerScore) {
+  pComputerScore.textContent = computerScore;
+  pHumanScore.textContent = humanScore;
+}
+
+//GAME
+
 // Begin a round
 //it will be 5 rounds once the game starts
 
@@ -24,7 +70,7 @@ let choices = ["rock", "paper", "scissors"];
 let computerScore = 0;
 let humanScore = 0;
 
-playGame();
+// playGame();
 
 function playGame() {
   for (let i = 0; i < 5; i++) {
@@ -55,7 +101,6 @@ function getComputerChoice() {
 }
 
 // get user choice
-
 function getHumanChoice() {
   while (true) {
     let value = parseInt(
