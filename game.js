@@ -6,17 +6,33 @@ let humanChoice = -1;
 const buttonsChoices = document.querySelectorAll("#game #choices button");
 
 buttonsChoices.forEach((button) => {
+  //when the button is clicked set humanChoice value
+  //change the selected button color to blue
+  //all other buttons se to default white
   button.addEventListener("click", () => {
-    let id = button.id;
-    if (id == "rock") {
-      humanChoice = 0;
-    } else if (id == "paper") {
-      humanChoice = 1;
-    } else {
-      humanChoice = 2;
-    }
+    onChoiceSelected(button);
   });
 });
+
+function onChoiceSelected(button) {
+  setChoicesColorToDefault();
+  button.setAttribute("style", "background-color:blue");
+  let id = button.id;
+  if (id == "rock") {
+    humanChoice = 0;
+  } else if (id == "paper") {
+    humanChoice = 1;
+  } else {
+    humanChoice = 2;
+  }
+}
+
+//get all choices button and set their colors to white
+function setChoicesColorToDefault() {
+  buttonsChoices.forEach((button) => {
+    button.setAttribute("style", "background-color:white");
+  });
+}
 
 //Get the playRound button and make the play using the playRound function using the humanChoice from earlier
 //update the result when the round is played
@@ -29,6 +45,7 @@ buttonPlayRound.addEventListener("click", () => {
   } else {
     playRound(getComputerChoice(), humanChoice);
     updateScoreBoard(humanScore, computerScore);
+    setChoicesColorToDefault();
     humanChoice = -1;
   }
 });
@@ -116,29 +133,35 @@ function getHumanChoice() {
 
 // get result based on computer and human inputs
 // 0 losses to 1, 1 losses to 2 and 2 losses to 0
+const pResult = document.querySelector("#result");
 function playRound(c, h) {
-  console.log("Human played: " + choices[h].toUpperCase());
-  console.log("Computer played: " + choices[c].toUpperCase());
+  pResult.textContent = "Human played: " + choices[h].toUpperCase()+'|';
+  pResult.textContent += "Computer played: " + choices[c].toUpperCase()+'|';
+
 
   if ((c == 0 && h == 1) || (c == 1 && h == 2) || (c == 2 && h == 0)) {
     //human wins
-    console.log("Result: Computer loses");
-    console.log(
-      choices[h].toUpperCase() + " beats " + choices[c].toUpperCase()
-    );
+    pResult.textContent +=
+      "Computer loses " +
+      choices[h].toUpperCase() +
+      " beats " +
+      choices[c].toUpperCase();
     humanScore += 1;
   } else if ((h == 0 && c == 1) || (h == 1 && c == 2) || (h == 2 && c == 0)) {
     //computer wins
-    console.log("Result: Human loses");
-    console.log(
-      choices[c].toUpperCase() + " beats " + choices[h].toUpperCase()
-    );
+    pResult.textContent +=
+      " Human loses " +
+      choices[c].toUpperCase() +
+      " beats " +
+      choices[h].toUpperCase();
+
     computerScore += 1;
   } else {
-    console.log("Result: It's is a draw");
-    console.log(
-      choices[c].toUpperCase() + " draws with " + choices[h].toUpperCase()
-    );
+    pResult.textContent +=
+      " It's is a draw " +
+      choices[c].toUpperCase() +
+      " draws with " +
+      choices[h].toUpperCase();
   }
 
   console.log("#### Score Board ####");
