@@ -30,18 +30,21 @@ function playGame() {
   for (let i = 0; i < 5; i++) {
     console.log("######################");
     console.log("Round:" + (i + 1));
-    let computerChoice = getComputerChoice();
     let humanChoice = getHumanChoice();
+    let computerChoice = getComputerChoice();
     playRound(computerChoice, humanChoice);
   }
   console.log("######################");
   console.log("The Game Ends!!!");
   if (computerScore > humanScore) {
     console.log("Computer Wins");
+    console.log("The machines takes over the world!");
   } else if (computerScore > humanScore) {
     console.log("Human Wins");
+    console.log("The humans takes over the world!");
   } else {
     console.log("It is a Draw");
+    console.log("It's okay, Humans and Computers did a pact of peace :)");
   }
 }
 
@@ -54,14 +57,24 @@ function getComputerChoice() {
 // get user choice
 
 function getHumanChoice() {
-  return parseInt(
-    prompt("Choose a option? \n0: Rock \n1: Paper \n2: Scissors")
-  );
+  while (true) {
+    let value = parseInt(
+      prompt("Choose a option? \n0: Rock \n1: Paper \n2: Scissors")
+    );
+    if (value > choices.length || value < 0) {
+      alert("The option is invalid");
+    } else {
+      return value;
+    }
+  }
 }
 
 // get result based on computer and human inputs
 // 0 losses to 1, 1 losses to 2 and 2 losses to 0
 function playRound(c, h) {
+  console.log("Human played: " + choices[h].toUpperCase());
+  console.log("Computer played: " + choices[c].toUpperCase());
+
   if ((c == 0 && h == 1) || (c == 1 && h == 2) || (c == 2 && h == 0)) {
     //human wins
     console.log("Result: Computer loses");
